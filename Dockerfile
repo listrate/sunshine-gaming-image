@@ -11,10 +11,11 @@ RUN apt-get update \
         libxdamage1 \
         libxinerama1 \
         libxrandr2 \
+        libxcb-damage0 \
     && rm -rf /var/lib/apt/lists/*
 
 LABEL org.opencontainers.image.source="https://github.com/listrate/sunshine-gaming-image" \
       org.opencontainers.image.title="Sunshine gaming host" \
-      org.opencontainers.image.version="v2026.516.143833-ubuntu-24.04.1"
+      org.opencontainers.image.version="v2026.516.143833-ubuntu-24.04.2"
 
 USER lizard
