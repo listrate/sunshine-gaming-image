@@ -36,7 +36,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            type=raw,value=v2026.516.143833-ubuntu-24.04.3
+            type=raw,value=v2026.516.143833-ubuntu-24.04.4
 
       - name: Build and publish
         id: build
