@@ -5,6 +5,7 @@ USER root
 RUN apt-get update \
     && apt-get install --no-install-recommends --yes \
         intel-media-va-driver \
+        libegl1 \
         libva-drm2 \
         libva-x11-2 \
         libxcomposite1 \
@@ -18,6 +19,6 @@ RUN apt-get update \
 
 LABEL org.opencontainers.image.source="https://github.com/listrate/sunshine-gaming-image" \
       org.opencontainers.image.title="Sunshine gaming host" \
-      org.opencontainers.image.version="v2026.516.143833-ubuntu-24.04.3"
+      org.opencontainers.image.version="v2026.516.143833-ubuntu-24.04.4"
 
 USER lizard
