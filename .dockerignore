@@ -3,3 +3,5 @@
 !Dockerfile
 !scripts/
 !scripts/*
+!retroarch-autoconfig/
+!retroarch-autoconfig/*
