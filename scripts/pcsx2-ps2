@@ -37,9 +37,9 @@ if [ ! -e "$CONFIG_DIR/bios" ]; then
     /usr/bin/ln -s /library/system/pcsx2/bios "$CONFIG_DIR/bios"
 fi
 
-set -- --appimage-extract-and-run "--cfgpath=$CONFIG_DIR"
+set -- --appimage-extract-and-run -datapath "$CONFIG_DIR" -fullscreen -bigpicture
 if [ -n "$rom" ]; then
-    set -- "$@" "$rom"
+    set -- "$@" -- "$rom"
 fi
 
 exec "$PCSX2" "$@"

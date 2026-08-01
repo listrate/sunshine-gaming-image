@@ -5,6 +5,7 @@ readonly CONFIG_DIR=/library/config/retroarch
 
 /usr/bin/mkdir -p \
     "$CONFIG_DIR" \
+    "$CONFIG_DIR/cores" \
     /library/roms/psp \
     /library/system/retroarch \
     /library/saves/psp \
@@ -19,6 +20,21 @@ if /usr/bin/grep -q '^joypad_autoconfig_dir = ' "$CONFIG_DIR/retroarch.cfg"; the
     /usr/bin/sed -i 's|^joypad_autoconfig_dir = .*|joypad_autoconfig_dir = "/usr/share/libretro/assets/autoconfig"|' "$CONFIG_DIR/retroarch.cfg"
 else
     /usr/bin/printf '%s\n' 'joypad_autoconfig_dir = "/usr/share/libretro/assets/autoconfig"' >> "$CONFIG_DIR/retroarch.cfg"
+fi
+if /usr/bin/grep -q '^libretro_directory = ' "$CONFIG_DIR/retroarch.cfg"; then
+    /usr/bin/sed -i 's|^libretro_directory = .*|libretro_directory = "/library/config/retroarch/cores"|' "$CONFIG_DIR/retroarch.cfg"
+else
+    /usr/bin/printf '%s\n' 'libretro_directory = "/library/config/retroarch/cores"' >> "$CONFIG_DIR/retroarch.cfg"
+fi
+if /usr/bin/grep -q '^core_updater_buildbot_cores_url = ' "$CONFIG_DIR/retroarch.cfg"; then
+    /usr/bin/sed -i 's|^core_updater_buildbot_cores_url = .*|core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"|' "$CONFIG_DIR/retroarch.cfg"
+else
+    /usr/bin/printf '%s\n' 'core_updater_buildbot_cores_url = "https://buildbot.libretro.com/nightly/linux/x86_64/latest/"' >> "$CONFIG_DIR/retroarch.cfg"
+fi
+if /usr/bin/grep -q '^core_updater_buildbot_assets_url = ' "$CONFIG_DIR/retroarch.cfg"; then
+    /usr/bin/sed -i 's|^core_updater_buildbot_assets_url = .*|core_updater_buildbot_assets_url = "https://buildbot.libretro.com/assets/"|' "$CONFIG_DIR/retroarch.cfg"
+else
+    /usr/bin/printf '%s\n' 'core_updater_buildbot_assets_url = "https://buildbot.libretro.com/assets/"' >> "$CONFIG_DIR/retroarch.cfg"
 fi
 
 exec /usr/bin/retroarch \
