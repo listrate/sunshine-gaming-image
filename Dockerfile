@@ -36,7 +36,7 @@ RUN /usr/bin/curl --fail --location --show-error --silent \
         | /usr/bin/sha256sum --check -
 
 COPY scripts/ /usr/local/bin/
-COPY retroarch-autoconfig/ /usr/share/libretro/assets/autoconfig/udev/
+COPY retroarch-autoconfig/udev/ /usr/share/libretro/assets/autoconfig/udev/
 
 RUN /usr/bin/chmod 0755 /opt/pcsx2/pcsx2.AppImage \
         /usr/local/bin/pcsx2-ps2 \
