@@ -1,0 +1,45 @@
+#!/bin/sh
+set -eu
+
+readonly PCSX2=/opt/pcsx2/pcsx2.AppImage
+readonly CONFIG_DIR=/library/config/pcsx2
+
+if [ "$#" -gt 1 ]; then
+    /usr/bin/printf '%s\n' 'usage: /usr/local/bin/pcsx2-ps2 [/library/roms/ps2/<rom>]' >&2
+    exit 64
+fi
+
+rom=${1:-}
+if [ -n "$rom" ]; then
+    case "$rom" in
+        /library/roms/ps2/*) ;;
+        *)
+            /usr/bin/printf '%s\n' 'the PS2 ROM must be below /library/roms/ps2' >&2
+            exit 64
+            ;;
+    esac
+fi
+
+/usr/bin/mkdir -p \
+    "$CONFIG_DIR" \
+    /library/roms/ps2 \
+    /library/system/pcsx2/bios \
+    /library/saves/ps2 \
+    /library/states/ps2
+
+if [ ! -e "$CONFIG_DIR/memcards" ]; then
+    /usr/bin/ln -s /library/saves/ps2 "$CONFIG_DIR/memcards"
+fi
+if [ ! -e "$CONFIG_DIR/sstates" ]; then
+    /usr/bin/ln -s /library/states/ps2 "$CONFIG_DIR/sstates"
+fi
+if [ ! -e "$CONFIG_DIR/bios" ]; then
+    /usr/bin/ln -s /library/system/pcsx2/bios "$CONFIG_DIR/bios"
+fi
+
+set -- --appimage-extract-and-run "--cfgpath=$CONFIG_DIR"
+if [ -n "$rom" ]; then
+    set -- "$@" "$rom"
+fi
+
+exec "$PCSX2" "$@"

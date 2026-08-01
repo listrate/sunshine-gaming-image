@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+readonly CONFIG_DIR=/library/config/retroarch
+
+/usr/bin/mkdir -p \
+    "$CONFIG_DIR" \
+    /library/roms/psp \
+    /library/system/retroarch \
+    /library/saves/psp \
+    /library/states/psp
+
+exec /usr/bin/retroarch \
+    --config "$CONFIG_DIR/retroarch.cfg" \
+    --fullscreen \
+    --menu
