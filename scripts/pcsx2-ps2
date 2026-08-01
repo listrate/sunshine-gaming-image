@@ -31,6 +31,18 @@ fi
 /usr/bin/rm -rf /home/lizard/.config/PCSX2
 /usr/bin/ln -s "$CONFIG_DIR" /home/lizard/.config/PCSX2
 
+if [ -d "$CONFIG_DIR/memcards" ] && [ ! -L "$CONFIG_DIR/memcards" ]; then
+    /usr/bin/cp -a "$CONFIG_DIR/memcards/." /library/saves/ps2/
+    /usr/bin/rm -rf "$CONFIG_DIR/memcards"
+fi
+if [ -d "$CONFIG_DIR/sstates" ] && [ ! -L "$CONFIG_DIR/sstates" ]; then
+    /usr/bin/cp -a "$CONFIG_DIR/sstates/." /library/states/ps2/
+    /usr/bin/rm -rf "$CONFIG_DIR/sstates"
+fi
+if [ -d "$CONFIG_DIR/bios" ] && [ ! -L "$CONFIG_DIR/bios" ]; then
+    /usr/bin/cp -a "$CONFIG_DIR/bios/." /library/system/pcsx2/bios/
+    /usr/bin/rm -rf "$CONFIG_DIR/bios"
+fi
 if [ ! -e "$CONFIG_DIR/memcards" ]; then
     /usr/bin/ln -s /library/saves/ps2 "$CONFIG_DIR/memcards"
 fi
