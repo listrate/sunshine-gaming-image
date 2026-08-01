@@ -5,3 +5,4 @@
 !scripts/*
 !retroarch-autoconfig/
 !retroarch-autoconfig/*
+!retroarch-autoconfig/**
