@@ -2,7 +2,7 @@
 set -eu
 
 readonly PCSX2=/opt/pcsx2/pcsx2.AppImage
-readonly CONFIG_DIR=/library/config/pcsx2
+readonly CONFIG_DIR=/config/PCSX2
 
 if [ "$#" -gt 1 ]; then
     /usr/bin/printf '%s\n' 'usage: /usr/local/bin/pcsx2-ps2 [/library/roms/ps2/<rom>]' >&2
@@ -22,10 +22,14 @@ fi
 
 /usr/bin/mkdir -p \
     "$CONFIG_DIR" \
+    /home/lizard/.config \
     /library/roms/ps2 \
     /library/system/pcsx2/bios \
     /library/saves/ps2 \
     /library/states/ps2
+
+/usr/bin/rm -rf /home/lizard/.config/PCSX2
+/usr/bin/ln -s "$CONFIG_DIR" /home/lizard/.config/PCSX2
 
 if [ ! -e "$CONFIG_DIR/memcards" ]; then
     /usr/bin/ln -s /library/saves/ps2 "$CONFIG_DIR/memcards"
@@ -37,7 +41,7 @@ if [ ! -e "$CONFIG_DIR/bios" ]; then
     /usr/bin/ln -s /library/system/pcsx2/bios "$CONFIG_DIR/bios"
 fi
 
-set -- --appimage-extract-and-run -datapath "$CONFIG_DIR" -fullscreen -bigpicture
+set -- --appimage-extract-and-run -fullscreen -bigpicture
 if [ -n "$rom" ]; then
     set -- "$@" -- "$rom"
 fi
