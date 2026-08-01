@@ -10,6 +10,17 @@ readonly CONFIG_DIR=/library/config/retroarch
     /library/saves/psp \
     /library/states/psp
 
+if /usr/bin/grep -q '^assets_directory = ' "$CONFIG_DIR/retroarch.cfg"; then
+    /usr/bin/sed -i 's|^assets_directory = .*|assets_directory = "/usr/share/libretro/assets"|' "$CONFIG_DIR/retroarch.cfg"
+else
+    /usr/bin/printf '%s\n' 'assets_directory = "/usr/share/libretro/assets"' >> "$CONFIG_DIR/retroarch.cfg"
+fi
+if /usr/bin/grep -q '^joypad_autoconfig_dir = ' "$CONFIG_DIR/retroarch.cfg"; then
+    /usr/bin/sed -i 's|^joypad_autoconfig_dir = .*|joypad_autoconfig_dir = "/usr/share/libretro/assets/autoconfig"|' "$CONFIG_DIR/retroarch.cfg"
+else
+    /usr/bin/printf '%s\n' 'joypad_autoconfig_dir = "/usr/share/libretro/assets/autoconfig"' >> "$CONFIG_DIR/retroarch.cfg"
+fi
+
 exec /usr/bin/retroarch \
     --config "$CONFIG_DIR/retroarch.cfg" \
     --fullscreen \

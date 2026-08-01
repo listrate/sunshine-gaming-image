@@ -5,10 +5,14 @@ USER root
 RUN apt-get update \
     && apt-get install --no-install-recommends --yes \
         intel-media-va-driver \
+        ca-certificates \
+        curl \
         libegl1 \
+        libopengl0 \
         libva-drm2 \
         libva-x11-2 \
         libxcomposite1 \
+        libxcb-cursor0 \
         libxdamage1 \
         libxinerama1 \
         libxrandr2 \
@@ -22,14 +26,17 @@ RUN apt-get update \
         x11-xserver-utils \
     && rm -rf /var/lib/apt/lists/*
 
-# PCSX2 v2.6.3 is the latest stable upstream release. The GitHub Releases API
-# publishes this asset digest; ADD verifies the downloaded bytes during build.
 RUN /usr/bin/mkdir -p /opt/pcsx2
-ADD --checksum=sha256:8ce7de8613c17b00b01028a512dd1b81998b6626ebbe93a067e0eb20aeedd5bf \
-    https://github.com/PCSX2/pcsx2/releases/download/v2.6.3/pcsx2-v2.6.3-linux-appimage-x64-Qt.AppImage \
-    /opt/pcsx2/pcsx2.AppImage
+RUN /usr/bin/curl --fail --location --show-error --silent \
+        https://github.com/PCSX2/pcsx2/releases/download/v2.6.3/pcsx2-v2.6.3-linux-appimage-x64-Qt.AppImage \
+        --output /opt/pcsx2/pcsx2.AppImage \
+    && printf '%s  %s\n' \
+        8ce7de8613c17b00b01028a512dd1b81998b6626ebbe93a067e0eb20aeedd5bf \
+        /opt/pcsx2/pcsx2.AppImage \
+        | /usr/bin/sha256sum --check -
 
 COPY scripts/ /usr/local/bin/
+COPY retroarch-autoconfig/ /usr/share/libretro/assets/autoconfig/udev/
 
 RUN /usr/bin/chmod 0755 /opt/pcsx2/pcsx2.AppImage \
         /usr/local/bin/pcsx2-ps2 \
